@@ -20,10 +20,11 @@ const moedas = [
 ]
 const Option = (props) => (
     <components.Option {...props} >
-      <C.img src={props.data.icon} alt="logo"  />
+      <C.img src={props.data.icon} alt="logo" />
       {props.data.label}
     </components.Option>
   );
+
 
 export const MoedasItens = () => {
     const [selectedMoeda, setSelectedMoeda] = useState(moedas[0]);
@@ -50,7 +51,7 @@ export const MoedasItens = () => {
             ...base,
             display: "flex",
             alignItems: "center",
-          })
+          }),
         }}
         components={{
           Option,
@@ -59,4 +60,6 @@ export const MoedasItens = () => {
       />
         </C.Container>);
 };
+
+
 export default MoedasItens;
