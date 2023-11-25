@@ -41,8 +41,8 @@ export const MoedasItens = () => {
     );
 
     return (
-        <C.Container> 
             <Select
+        id={selectedMoeda.value}
         value={selectedMoeda}
         options={moedas}
         onChange={handleChange}
@@ -58,7 +58,7 @@ export const MoedasItens = () => {
           SingleValue
         }}
       />
-        </C.Container>);
+);
 };
 
 
