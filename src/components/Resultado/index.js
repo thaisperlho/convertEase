@@ -3,38 +3,75 @@ import * as C from "./styles";
 import axios from "axios";
 import seta from "./img/seta.png";
 import cambio from "./img/cambio.png";
-import { MoedasItens } from "../MoedasItens";
+import Select, { components } from "react-select";
+import usd from "./img/usd.png";
+import brl from "./img/brl.png";
+import eur from "./img/eur.png";
+import cad from "./img/cad.png";
+import aud from "./img/aud.png";
 
+const moedas = [
+    { value: "USD", label: "Dólar", icon: usd},
+    { value: "BRL", label: "Real",icon: brl},
+    { value: "EUR", label: "Euro", icon: eur},
+    { value: "CAD", label: "Dólar Canadense", icon: cad},
+    { value: "AUD", label: "Dólar Australiano", icon: aud}
+    
+]
 
-
-
+const Option = (props) => (
+    <components.Option {...props} >
+      <C.img src={props.data.icon} alt="logo" />
+      {props.data.label}
+    </components.Option>
+  );
 
 export const Resultado = () => {
-
+    const [selectedMoeda, setSelectedMoeda] = useState(moedas[0]);
+    const [selectedMoeda2, setSelectedMoeda2] = useState(moedas[1]);
     const [cotacao1, setCotacao] = useState('');
     const [cotacao2, setCotacao2] = useState('');
     const [valor, setValor] = useState('');
-    const [moedaA, setSelectedMoeda] = useState('USD');
-    const [moedaB, setSelectedMoeda2] = useState('BRL');
     const [resultado, setResultado] = useState(0);
     const [resultado2, setResultado2] = useState(0);
 
 
+    const handleChangeMoeda1 = (value) => {
+        setSelectedMoeda(value);
+    };
+    const handleChangeMoeda2 = (value) => {
+        setSelectedMoeda2(value);
+    };
 
     const handleChange = (e) => {
         setValor(e.target.value);
         e.preventDefault();
         axios
         .get(
-            `https://economia.awesomeapi.com.br/last/${moedaA}-${moedaB}`
+            `https://economia.awesomeapi.com.br/last/${selectedMoeda.value}-${selectedMoeda2.value}`
         )
         .then((res) => {
             const cotacao = res.data;
-            const moeda = `${moedaA}${moedaB}`;
+            const moeda = `${selectedMoeda.value}${selectedMoeda2.value}`;
             setCotacao(cotacao[`${moeda}`].bid);
             setCotacao2(cotacao[`${moeda}`].ask);
         });
     }
+
+    const SingleValueMoeda1 = ({ children, ...props }) => (
+        <components.SingleValueMoeda1 {...props}>
+          <C.img src={selectedMoeda.icon} alt="s-logo" />
+          {children}
+        </components.SingleValueMoeda1>
+      );
+
+      const SingleValueMoeda2 = ({ children, ...props }) => (
+        <components.SingleValueMoeda2 {...props}>
+          <C.img src={selectedMoeda2.icon} alt="s-logo" />
+          {children}
+        </components.SingleValueMoeda2>
+      );
+    
 
 
 
@@ -51,11 +88,41 @@ export const Resultado = () => {
         <>
             <C.ContainerMoedas>
                 <C.SelectMoedas>
-                    <MoedasItens />
+                    <Select
+        value={selectedMoeda}
+        options={moedas}
+        onChange={handleChangeMoeda1}
+        styles={{
+            SingleValueMoeda1: (base) => ({
+            ...base,
+            display: "flex",
+            alignItems: "center",
+          }),
+        }}
+        components={{
+          Option,
+          SingleValueMoeda1
+        }}
+      />
                 </C.SelectMoedas>
                 <C.img src={seta} alt="logo" />
                 <C.SelectMoedas>
-                    <MoedasItens />
+                <Select
+        value={selectedMoeda2}
+        options={moedas}
+        onChange={handleChangeMoeda2}
+        styles={{
+            SingleValueMoeda2: (base) => ({
+            ...base,
+            display: "flex",
+            alignItems: "center",
+          }),
+        }}
+        components={{
+          Option,
+          SingleValueMoeda2
+        }}
+      />
                 </C.SelectMoedas>
             </C.ContainerMoedas>
             <C.Form>

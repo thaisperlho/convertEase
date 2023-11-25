@@ -20,7 +20,7 @@ border: 1px solid var(--tex-cor-4, #434343);
 width: 20%;
 height: 5vh;
 border-radius: 5px;
-background-color: #F4D3DD;
+background-color: var(--tex-cor-1, #ED2172);
 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 `;
 

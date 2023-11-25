@@ -61,5 +61,4 @@ export const MoedasItens = () => {
 );
 };
 
-
 export default MoedasItens;
